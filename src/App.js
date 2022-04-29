@@ -11,6 +11,18 @@ class App extends Component {
     }
   }
 
+sortBy(sortedBy){
+  let items = this.state.items
+  items.sort(function(a,b){
+    var keyA = a[sortedBy]
+    var keyB = b[sortedBy]
+    if(keyA < keyB) return -1;
+    if(keyA > keyB) return 1;
+    return 0
+  })
+  this.setState({items: items})
+}
+
 render(){
   if(!this.state.gatheredData){
     let bro = new brewData().getData();
@@ -22,13 +34,12 @@ render(){
   }
 
   var items = this.state.items;
-  
   return (
     <div className="App">
       <div className='btn-group'>
-      <button>Name</button>
-      <button>City</button>
-      <button>Type</button>
+      <button onClick={() => this.sortBy("name")}>Name</button>
+      <button onClick={() => this.sortBy("city")}>City</button>
+      <button onClick={() => this.sortBy("brewery_type")}>Type</button>
       </div>
       <div className='data'>
       <ol>
@@ -46,22 +57,9 @@ render(){
         ))}
       </ol>
       </div>
+      
     </div>
   );
 }
-
-arraySplitter(arr){
-  let result = []
-  for(let i = 0; i < arr.length; i+= 25){
-    let slice = arr.slice(i, i+25)
-    result.push(slice)
-  }
-  return result
 }
-
-
-}
-
-
-
 export default App;
