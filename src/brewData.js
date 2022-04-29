@@ -5,7 +5,7 @@ export default class brewData extends Component{
         super();
         this.state = JSON.parse(window.localStorage.getItem('state')) || {
           items: [],
-          timeLoaded: 0,
+          timeLoaded: 1,
         }
       }
     
@@ -16,7 +16,7 @@ export default class brewData extends Component{
 
     async getData(){
         var time = new Date().getTime();
-        if((time - this.state.timeLoaded) * (1000 * 60 * 60 * 24) >= 1){
+        if((time - this.state.timeLoaded) / (1000 * 60 * 60 * 24) >= 1){
             let data = []
             for(let i = 1; i < 10; i++){
                 var url = 'https://api.openbrewerydb.org/breweries?by_state=texas&per_page=50&page='+i+'&sort=name:asc'
