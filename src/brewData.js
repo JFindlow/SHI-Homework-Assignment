@@ -1,5 +1,5 @@
 import { Component } from "react";
-
+import Brewery from './Brewery'
 export default class brewData extends Component {
     constructor() {
         super();
@@ -16,7 +16,10 @@ export default class brewData extends Component {
 
     async getData() {
         var time = new Date().getTime();
-        if ((time - this.state.timeLoaded) / (1000 * 60 * 60 * 24) >= 1) {
+        var tempTime = 0
+        console.log((time - tempTime) / (1000 * 60 * 60 * 24))
+        console.log("Current time: " + time)
+        if ((time - tempTime) / (1000 * 60 * 60 * 24) >= 1) {
             let data = []
             for (let i = 1; i < 10; i++) {
                 var url = 'https://api.openbrewerydb.org/breweries?by_state=texas&per_page=50&page=' + i + '&sort=name:asc'
@@ -24,13 +27,14 @@ export default class brewData extends Component {
             }
 
             const merge = [].concat.apply([], await Promise.all(data))
-            console.log(merge)
             this.setState({
                 items: merge,
                 timeLoaded: time
             })
 
         }
+        console.log(new Brewery(this.state.items[0]))
+        console.log("Updated items at: " + this.state.timeLoaded)
         return this.state.items
     }
 }
